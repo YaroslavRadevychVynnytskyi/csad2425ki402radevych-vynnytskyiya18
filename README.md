@@ -73,4 +73,5 @@ To build and run client (Java application) you should:
 To build and run server (Arduino sketch) you have to:
 1. Navigate to ```csad2425ki402radevych-vynnytskyiya18/server/rock-paper-scissors-server```
 2. Open file ```rock-paper-scissors-server.ino``` with Arduino IDE
-2. Plug into computer your Arduino board and select a port in Arduino IDE.
+3. Plug into computer your Arduino board and select a port in Arduino IDE
+4. Program board by pressing ```upload``` button

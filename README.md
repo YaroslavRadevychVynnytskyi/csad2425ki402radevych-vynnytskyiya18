@@ -50,3 +50,27 @@ For the upcoming tasks, the following technologies, languages, and hardware will
 - **Programming Language**: Java
 - **Build Tool**: Maven
 - **Hardware**: Arduino Uno
+___
+
+## Task 2 Instructions
+**Description of the system**:
+Client (console Java app) asks user to enter a message which is then sent to the server. The server (runs on Arduino) responds with modified message. Basically, it adds "Hello, Java. You've sent: " plus user's original message.
+
+**Requirements**: 
+***Client***:
+* JDK 17 or higher
+* Maven 3.6.3 or higher
+
+***Server***:
+* Arduino IDE
+
+To build and run client (Java application) you should:
+1. Fetch ```feature/develop/task2``` branch
+2. Navigate to ```csad2425ki402radevych-vynnytskyiya18/client/rock-paper-scissors-client```
+3. Build project by typing ```mvn clean package```
+4. Run the application by ```mvn exec:java```
+
+To build and run server (Arduino sketch) you have to:
+1. Navigate to ```csad2425ki402radevych-vynnytskyiya18/server/rock-paper-scissors-server```
+2. Open file ```rock-paper-scissors-server.ino``` with Arduino IDE
+2. Plug into computer your Arduino board and select a port in Arduino IDE.

@@ -62,7 +62,7 @@ jobs:
 
       - name: Build Arduino Project
         run: |
-          arduino-cli compile --fqbn arduino:avr:uno csad2425ki402radevych-vynnytskyiya18/server/rock-paper-scissors-server/rock-paper-scissors-server.ino
+          arduino-cli compile --fqbn arduino:avr:uno server/rock-paper-scissors-server/rock-paper-scissors-server.ino
 
       - name: Upload Arduino Build Artifact
         uses: actions/upload-artifact@v3

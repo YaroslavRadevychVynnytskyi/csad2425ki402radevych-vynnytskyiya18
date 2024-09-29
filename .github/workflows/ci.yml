@@ -23,27 +23,34 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Change directory to rock-paper-scissors-client
+        run: cd client/rock-paper-scissors-client
+
       - name: Build with Maven
         run: mvn clean compile -B
+        working-directory: client/rock-paper-scissors-client
 
       - name: Run tests
         run: mvn test
+        working-directory: client/rock-paper-scissors-client
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: target/surefire-reports/
+          path: client/rock-paper-scissors-client/target/surefire-reports/
 
       - name: Package JAR
         run: mvn package
+        working-directory: client/rock-paper-scissors-client
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v3
         with:
           name: built-app
-          path: target/*.jar
+          path: client/rock-paper-scissors-client/target/*.jar
+
   arduino:
     runs-on: ubuntu-latest
 

@@ -60,6 +60,9 @@ jobs:
         with:
           version: '0.19.2'
 
+      - name: Install Arduino AVR platform
+        run: arduino-cli core install arduino:avr
+
       - name: Build Arduino Project
         run: |
           arduino-cli compile --fqbn arduino:avr:uno server/rock-paper-scissors-server/rock-paper-scissors-server.ino
@@ -68,4 +71,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: arduino-build
-          path: csad2425ki402radevych-vynnytskyiya18/server/rock-paper-scissors-server/build/*
+          path: server/rock-paper-scissors-server/build/*

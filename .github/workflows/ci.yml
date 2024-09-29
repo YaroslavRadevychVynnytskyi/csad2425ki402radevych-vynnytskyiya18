@@ -52,17 +52,17 @@ jobs:
           path: client/rock-paper-scissors-client/target/*.jar
 
   arduino:
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Arduino
-        uses: arduino/setup-arduino@v1
-        with:
-          version: '1.8.19'
+    - name: Set up Arduino CLI
+      uses: arduino/setup-arduino-cli@v1
+      with:
+        version: '0.19.2'
 
-      - name: Build Arduino Project
-        run: |
-          arduino-cli compile --fqbn arduino:avr:uno rock-paper-scissors-server.ino
+    - name: Build Arduino Project
+      run: |
+        arduino-cli compile --fqbn arduino:avr:uno csad2425ki402radevych-vynnytskyiya18/server/rock-paper-scissors-server/rock-paper-scissors-server.ino

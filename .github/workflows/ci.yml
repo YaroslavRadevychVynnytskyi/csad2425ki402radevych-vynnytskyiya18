@@ -1,0 +1,74 @@
+name: CI for Java and Arduino
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  java:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn clean compile -B
+        working-directory: client/rock-paper-scissors-client
+
+      - name: Run tests
+        run: mvn test
+        working-directory: client/rock-paper-scissors-client
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: client/rock-paper-scissors-client/target/surefire-reports/
+
+      - name: Package JAR
+        run: mvn package
+        working-directory: client/rock-paper-scissors-client
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: built-app
+          path: client/rock-paper-scissors-client/target/*.jar
+
+  arduino:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v1
+        with:
+          version: '0.19.2'
+
+      - name: Install Arduino AVR platform
+        run: arduino-cli core install arduino:avr
+
+      - name: Build Arduino Project
+        run: |
+          arduino-cli compile --fqbn arduino:avr:uno server/rock-paper-scissors-server/rock-paper-scissors-server.ino
+
+      - name: Upload Arduino Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: arduino-build
+          path: server/rock-paper-scissors-server/build/*

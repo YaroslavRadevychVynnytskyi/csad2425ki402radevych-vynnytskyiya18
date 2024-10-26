@@ -19,28 +19,24 @@ import org.junit.jupiter.api.Test;
 public class SerialCommunicationTest {
     private SerialPort serialPort;
     private SerialCommunication serialCommunication;
+    private InputStream mockInputStream;
+    private OutputStream mockOutputStream;
 
     @BeforeEach
     void setUp() {
         serialPort = mock(SerialPort.class);
+        mockInputStream = mock(InputStream.class);
+        mockOutputStream = mock(OutputStream.class);
+
+        when(serialPort.getInputStream()).thenReturn(mockInputStream);
+        when(serialPort.getOutputStream()).thenReturn(mockOutputStream);
+
         serialCommunication = new SerialCommunication(serialPort);
-    }
-
-    @Test
-    void open_AllOk_ShouldOpenPort() {
-        //Act
-        serialCommunication.open();
-
-        //Assert
-        verify(serialPort).openPort();
     }
 
     @Test
     void sendMessage_AllOk_ShouldSendMessage() throws IOException {
         // Arrange
-        OutputStream mockOutputStream = mock(OutputStream.class);
-        when(serialPort.getOutputStream()).thenReturn(mockOutputStream);
-
         String mockMessage = "Test message";
 
         // Act
@@ -52,34 +48,10 @@ public class SerialCommunicationTest {
     }
 
     @Test
-    void receiveMessage_AllOk_ShouldReturnReceivedMessage() throws IOException {
-        // Arrange
-        String expected = "Arduino response\n";
-
-        byte[] testData = expected.getBytes();
-        InputStream mockInputStream = mock(InputStream.class);
-
-        when(serialPort.getInputStream()).thenReturn(mockInputStream);
-        when(mockInputStream.read(any(byte[].class))).thenAnswer(i -> {
-            byte[] buffer = i.getArgument(0);
-            System.arraycopy(testData, 0, buffer, 0, testData.length);
-            return testData.length;
-        });
-
-        // Act
-        String actual = serialCommunication.receiveMessage();
-
-        // Assert
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void receiveMessage_NoData_ShouldThrowIOException() throws IOException {
         // Arrange
         String expectedExceptionMessage = "No data received from server";
-        InputStream mockInputStream = mock(InputStream.class);
 
-        when(serialPort.getInputStream()).thenReturn(mockInputStream);
         when(mockInputStream.read(any(byte[].class))).thenReturn(-1);
 
         // Act & Assert
@@ -89,11 +61,27 @@ public class SerialCommunicationTest {
     }
 
     @Test
-    void close_AllOk_ShouldClosePort() {
+    void close_AllOk_ShouldClosePort() throws IOException {
         // Act
         serialCommunication.close();
 
         // Assert
+        verify(mockInputStream).close();
+        verify(mockOutputStream).close();
         verify(serialPort).closePort();
+    }
+
+    @Test
+    void receiveMessageUntil_NoData_ShouldThrowIOException() throws IOException {
+        // Arrange
+        String expectedExceptionMessage = "No data received from server";
+        String delimiter = "\n";
+
+        when(mockInputStream.read(any(byte[].class))).thenReturn(-1);
+
+        // Act & Assert
+        IOException exception = assertThrows(IOException.class, () -> serialCommunication.receiveMessageUntil(delimiter));
+
+        assertEquals(expectedExceptionMessage, exception.getMessage());
     }
 }

@@ -75,3 +75,25 @@ To build and run server (Arduino sketch) you have to:
 2. Open file ```rock-paper-scissors-server.ino``` with Arduino IDE
 3. Plug into computer your Arduino board and select a port in Arduino IDE
 4. Program board by pressing ```upload``` button
+___
+
+## Task 3 Instructions
+**Description of the system**:
+This task is a **Rock Paper Scissors game** implemented with ```JavaFX``` as a client interface and an Arduino server to handle game logic and determine the winner. The client sends game input to the Arduino using the ```jSerialComm``` library, allowing real-time communication and result processing.
+
+### Game Modes
+The game supports three modes:
+
+1. Man vs. Man: Two players compete against each other.
+2. Man vs. Computer: A player competes against a computer opponent.
+3. Computer vs. Computer: The computer plays against itself for demonstration purposes.
+
+### Technologies Used
+* JavaFX: Used to create the graphical interface for the game.
+* jSerialComm: Java library for serial communication with the Arduino.
+* Arduino: Manages game logic, evaluates player moves, and determines the winner.
+### How It Works
+1. The JavaFX client provides a user interface to select Rock, Paper, or Scissors.
+2. Once a choice is made, the application sends data to the Arduino over a serial connection via jSerialComm.
+3. The Arduino processes the choice, executes game logic, and determines the winner.
+4. The result (win/lose/draw) is sent back to the JavaFX client and displayed.

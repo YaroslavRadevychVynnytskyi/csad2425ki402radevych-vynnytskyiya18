@@ -4,14 +4,14 @@ set -e
 
 echo "Starting CI process for Java and Arduino..."
 
-ROOT_PROJECT_PATH="/home/user/nulp/4course1sem/csad/csad2425ki402radevych-vynnytskyiya18"
-JAVA_PROJECT_PATH="/home/user/nulp/4course1sem/csad/csad2425ki402radevych-vynnytskyiya18/client/rock-paper-scissors-client"
-ARDUINO_PROJECT_PATH="/home/user/nulp/4course1sem/csad/csad2425ki402radevych-vynnytskyiya18/server/rock-paper-scissors-server"
-DEPLOY_DIR=$ROOT_PROJECT_PATH/"deploy"
+ROOT_PROJECT_PATH="."
+JAVA_PROJECT_PATH="./client/rock-paper-scissors-client"
+ARDUINO_PROJECT_PATH="./server/rock-paper-scissors-server"
+DEPLOY_DIR="/home/user/nulp/csad/csad2425ki402radevych-vynnytskyiya18/deploy"
 
 mkdir -p $DEPLOY_DIR
 
-echo "\n === Client Application Build and Test ==="
+echo "=== Client Application Build and Test ==="
 
 cd $JAVA_PROJECT_PATH
 
@@ -33,6 +33,10 @@ cp target/*.jar $DEPLOY_DIR
 
 cd ../..
 
+echo "=== Doxygen documentation generation ==="
+echo "Generating documentation..."
+doxygen Doxyfile
+
 echo "=== Server Application (Arduino) Build ==="
 
 echo "Compiling Arduino project..."
@@ -44,4 +48,6 @@ arduino-cli upload -p /dev/ttyUSB0 --fqbn arduino:avr:uno $ARDUINO_PROJECT_PATH/
 echo "CI process completed successfully. Artifacts are located in the $DEPLOY_DIR directory."
 
 echo "=== DONE ==="
+
+
 

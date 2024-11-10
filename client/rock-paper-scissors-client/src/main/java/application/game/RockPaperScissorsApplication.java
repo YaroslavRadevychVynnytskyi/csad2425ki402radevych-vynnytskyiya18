@@ -27,12 +27,26 @@ import javafx.stage.Stage;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
+/**
+ * The main application class for the Rock Paper Scissors game.
+ * <p>
+ * This class creates and manages the UI for the game, allowing players to select game modes,
+ * start new games, load saved games, and interact with each other in different game modes (Man vs Man,
+ * Man vs AI, and AI vs AI). It utilizes a controller to manage the game logic and interactions.
+ * </p>
+ */
 public class RockPaperScissorsApplication extends Application {
     private Player player1;
     private Player player2;
 
     private GameController gameController;
 
+    /**
+     * Initializes the Rock Paper Scissors application.
+     * <p>
+     * Sets up the game controller and handles connection errors during initialization.
+     * </p>
+     */
     public RockPaperScissorsApplication() {
         try {
             gameController = new GameController(0);
@@ -41,6 +55,15 @@ public class RockPaperScissorsApplication extends Application {
         }
     }
 
+    /**
+     * Starts the primary stage (window) for the Rock Paper Scissors game.
+     * <p>
+     * Initializes the game menu, logo image, and various UI components. Allows the user to start a new game
+     * or load a saved game.
+     * </p>
+     *
+     * @param primaryStage the main window of the application
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Rock Paper Scissors Menu");
@@ -85,6 +108,15 @@ public class RockPaperScissorsApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Loads a saved game from a specified file.
+     * <p>
+     * Parses the INI file and restores the game state, including player names and moves.
+     * </p>
+     *
+     * @param file the file containing the saved game state
+     * @throws IOException if there is an error loading the game from the file
+     */
     private void loadGame(File file) throws IOException {
         Ini ini = new Ini(file);
         Profile.Section gameStatus = ini.get("Game Status");
@@ -111,6 +143,17 @@ public class RockPaperScissorsApplication extends Application {
         }
     }
 
+    /**
+     * Displays the game mode selection screen where the user can choose between different modes.
+     * <p>
+     * The available modes are:
+     * <ul>
+     *   <li>Man vs Man</li>
+     *   <li>Man vs AI</li>
+     *   <li>AI vs AI</li>
+     * </ul>
+     * </p>
+     */
     private void showGameModeSelection() {
         Stage modeStage = new Stage();
         modeStage.setTitle("Select Game Mode");
@@ -143,6 +186,17 @@ public class RockPaperScissorsApplication extends Application {
         modeStage.show();
     }
 
+    /**
+     * Starts a game where two AI players compete against each other.
+     * <p>
+     * This method closes the current mode stage and opens a new game stage
+     * where two AIs play against each other. The result of the game is displayed
+     * along with the moves made by both AI players. A button allows the game to
+     * be played and displays the result and moves.
+     * </p>
+     *
+     * @param modeStage The stage representing the game mode screen that will be closed when the game starts.
+     */
     private void startAiVsAiGame(Stage modeStage) {
         modeStage.close();
 
@@ -201,6 +255,16 @@ public class RockPaperScissorsApplication extends Application {
 
     }
 
+    /**
+     * Sets the nicknames for both players in a given game mode.
+     * <p>
+     * This method opens a stage where the user can input the nicknames for both players.
+     * Based on the selected game mode, it proceeds to start the corresponding game.
+     * </p>
+     *
+     * @param gameMode The game mode selected, which determines whether the game will be played
+     *                 as "Man vs Man" or "Man vs AI".
+     */
     private void setPlayerNicknames(GameMode gameMode) {
         Stage nicknameStage = new Stage();
         nicknameStage.setTitle("Set Player Nicknames");
@@ -231,6 +295,17 @@ public class RockPaperScissorsApplication extends Application {
         nicknameStage.show();
     }
 
+    /**
+     * Starts a game where a human player competes against an AI player.
+     * <p>
+     * This method closes the nickname input stage and opens a new game stage where the human
+     * player and the AI take turns making moves. The result of the game and the moves are displayed
+     * after the human player makes their move.
+     * </p>
+     *
+     * @param nicknameStage The stage where player nicknames are entered, which will be closed
+     *                      when the game starts.
+     */
     private void startManVsAiGame(Stage nicknameStage) {
         nicknameStage.close();
 
@@ -308,6 +383,19 @@ public class RockPaperScissorsApplication extends Application {
 
     }
 
+    /**
+     * Starts a game where two human players compete against each other.
+     * <p>
+     * This method closes the nickname input stage and opens a new game stage where the two players
+     * take turns making moves. The result of the game and the moves are displayed after both players
+     * make their respective moves.
+     * </p>
+     *
+     * @param nicknameStage The stage where player nicknames are entered, which will be closed
+     *                      when the game starts.
+     * @param isLoaded A flag indicating whether the game state has been loaded from a previous session.
+     *                 If true, the previous moves are displayed and the players cannot modify their moves.
+     */
     private void startManVsManGame(Stage nicknameStage, boolean isLoaded) {
         nicknameStage.close();
 
@@ -433,6 +521,19 @@ public class RockPaperScissorsApplication extends Application {
         gameStage.show();
     }
 
+    /**
+     * Saves the result of the game to a file.
+     * <p>
+     * This method allows the user to save the game result to a file with an .ini extension.
+     * It writes the names of both players, their moves, and the result of the game to the file.
+     * </p>
+     *
+     * @param file The file where the game result will be saved.
+     * @param result The result of the game, indicating the winner or if it's a draw.
+     * @param player1 The first player in the game.
+     * @param player2 The second player in the game.
+     * @throws IOException If an error occurs while writing to the file.
+     */
     private void saveGameResult(File file, String result, Player player1, Player player2) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write("[Game Status]");
@@ -465,6 +566,17 @@ public class RockPaperScissorsApplication extends Application {
         }
     }
 
+    /**
+     * Creates an image view for a given player's move.
+     * <p>
+     * This method takes a player's move (either ROCK, PAPER, or SCISSORS) and returns an ImageView
+     * representing that move. The method maps the move to a corresponding image file (rock.png, paper.png, or scissors.png),
+     * creates an Image object from the file, and returns an ImageView with that image.
+     * </p>
+     *
+     * @param move The move made by the player (either ROCK, PAPER, or SCISSORS).
+     * @return An ImageView containing the image corresponding to the player's move.
+     */
     private ImageView createMoveImage(Player.Move move) {
         String imagePath = "";
 
@@ -486,6 +598,14 @@ public class RockPaperScissorsApplication extends Application {
         return imageView;
     }
 
+    /**
+     * The main entry point for the application.
+     * <p>
+     * This method launches the JavaFX application by invoking the `launch` method.
+     * </p>
+     *
+     * @param args Command-line arguments passed to the application.
+     */
     public static void main(String[] args) {
         launch(args);
     }

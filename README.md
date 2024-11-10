@@ -97,3 +97,12 @@ The game supports three modes:
 2. Once a choice is made, the application sends data to the Arduino over a serial connection via jSerialComm.
 3. The Arduino processes the choice, executes game logic, and determines the winner.
 4. The result (win/lose/draw) is sent back to the JavaFX client and displayed.
+___
+
+## Task 4
+**Added Doxygen documentation**
+
+This project now uses Doxygen to generate code documentation.
+
+
+After running local ci script, generated documentation will be available in the ```/deploy/docs``` directory (or the path specified in OUTPUT_DIRECTORY). Open docs/html/index.html in a browser to view it.

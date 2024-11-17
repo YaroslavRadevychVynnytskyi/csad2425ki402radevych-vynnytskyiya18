@@ -9,12 +9,10 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
+@DisabledIfSystemProperty(named = "ci.environment", matches = "true")
 public class GameControllerTest {
     private GameController gameController;
 
@@ -34,7 +32,6 @@ public class GameControllerTest {
 
     @Order(1)
     @Test
-    @DisabledIfSystemProperty(named = "ci.environment", matches = "true")
     public void testSendModeAndMoves_MAN_VS_MAN() throws Exception {
         String mode = "MAN_VS_MAN";
         Player.Move player1Move = Player.Move.ROCK;
@@ -42,8 +39,6 @@ public class GameControllerTest {
 
         gameController.sendModeAndMoves(mode, player1Move, player2Move);
         GameResponseDto response = gameController.receiveResult();
-
-        System.out.println(response.gameResult());
 
         assertNotNull(response, "Response should not be null");
         assertEquals("Player 1", response.gameResult(), "Expected Player 1 to win with ROCK vs SCISSORS");
@@ -53,7 +48,6 @@ public class GameControllerTest {
 
     @Order(2)
     @Test
-    @DisabledIfSystemProperty(named = "ci.environment", matches = "true")
     public void testSendModeAndMoves_DRAW() throws Exception {
         String mode = "MAN_VS_MAN";
         Player.Move player1Move = Player.Move.PAPER;

@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 public class GameControllerTest {
@@ -29,6 +30,7 @@ public class GameControllerTest {
     }
 
     @Order(1)
+    @Tag("ArduinoRequired")
     @Test
     public void testSendModeAndMoves_MAN_VS_MAN() throws Exception {
         String mode = "MAN_VS_MAN";
@@ -47,6 +49,7 @@ public class GameControllerTest {
     }
 
     @Order(2)
+    @Tag("ArduinoRequired")
     @Test
     public void testSendModeAndMoves_DRAW() throws Exception {
         String mode = "MAN_VS_MAN";

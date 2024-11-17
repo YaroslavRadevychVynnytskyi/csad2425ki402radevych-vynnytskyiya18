@@ -106,3 +106,12 @@ This project now uses Doxygen to generate code documentation.
 
 
 After running local ci script, generated documentation will be available in the ```/deploy/docs``` directory (or the path specified in OUTPUT_DIRECTORY). Open docs/html/index.html in a browser to view it.
+___
+
+## Task 5
+**Added Automated Tests**
+
+Implemented integration test using JUnit 5 testing framework. Updated a local Continuous Integration (CI) script to generate and copy test statistics.
+
+
+After running local ci script, generated test statistics will be available in the ```/deploy/test-results``` directory (or the path specified in OUTPUT_DIRECTORY). Open ```index.html``` in a browser to view it.

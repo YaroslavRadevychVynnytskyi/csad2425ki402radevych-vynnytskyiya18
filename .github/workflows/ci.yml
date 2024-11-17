@@ -28,7 +28,7 @@ jobs:
         working-directory: client/rock-paper-scissors-client
 
       - name: Run tests
-        run: mvn test
+        run: mvn test -Dgroups=\!ArduinoRequired
         working-directory: client/rock-paper-scissors-client
 
       - name: Upload test results
@@ -39,7 +39,7 @@ jobs:
           path: client/rock-paper-scissors-client/target/surefire-reports/
 
       - name: Package JAR
-        run: mvn package
+        run: mvn package -DskipTests
         working-directory: client/rock-paper-scissors-client
 
       - name: Upload JAR artifact

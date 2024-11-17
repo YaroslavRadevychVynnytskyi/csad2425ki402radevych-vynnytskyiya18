@@ -11,6 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 public class GameControllerTest {
     private GameController gameController;
@@ -30,8 +33,8 @@ public class GameControllerTest {
     }
 
     @Order(1)
-    @Tag("ArduinoRequired")
     @Test
+    @DisabledIfSystemProperty(named = "ci.environment", matches = "true")
     public void testSendModeAndMoves_MAN_VS_MAN() throws Exception {
         String mode = "MAN_VS_MAN";
         Player.Move player1Move = Player.Move.ROCK;
@@ -49,8 +52,8 @@ public class GameControllerTest {
     }
 
     @Order(2)
-    @Tag("ArduinoRequired")
     @Test
+    @DisabledIfSystemProperty(named = "ci.environment", matches = "true")
     public void testSendModeAndMoves_DRAW() throws Exception {
         String mode = "MAN_VS_MAN";
         Player.Move player1Move = Player.Move.PAPER;

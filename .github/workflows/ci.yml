@@ -28,7 +28,7 @@ jobs:
         working-directory: client/rock-paper-scissors-client
 
       - name: Run tests
-        run: mvn test -Dgroups=\!ArduinoRequired
+        run: mvn test -Dci.environment=true
         working-directory: client/rock-paper-scissors-client
 
       - name: Upload test results

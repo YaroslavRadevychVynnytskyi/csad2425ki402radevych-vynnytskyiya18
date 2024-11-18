@@ -31,6 +31,12 @@ mvn package
 echo "Copying JAR artifact... to $DEPLOY_DIR..."
 cp target/*.jar $DEPLOY_DIR
 
+echo "Generating tests statistics..."
+mvn jacoco:report
+
+echo "Copying tests statistics... to $DEPLOY_DIR..."
+cp target/site/jacoco/index.html $DEPLOY_DIR/test-results
+
 cd ../..
 
 echo "=== Doxygen documentation generation ==="
